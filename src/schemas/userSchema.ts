@@ -8,3 +8,13 @@ export const createUserSchema = z.object({
     })
 
 })
+
+export const authUserSchema = z.object({
+    body: z.object({
+        email: z.email({ message: "Precisa ser um email Válido" }),
+        password: z
+            .string({ message: "A senha é obrigatoria" })
+            .min(1, { message: "A senha é obrigatoria" })
+    })
+
+})

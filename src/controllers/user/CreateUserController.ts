@@ -7,15 +7,19 @@ class CreateUserController {
 
         const { name, email, password } = req.body;
 
-        console.log({ name, email, password })
+
 
         const createUSerService = new CreateUserService();
 
-        const user = await createUSerService.execute();
+        const user = await createUSerService.execute({
+            name: name,
+            email: email,
+            password: password
+        });
 
 
 
-        res.json({ message: user })
+        res.json(user)
     }
 }
 
