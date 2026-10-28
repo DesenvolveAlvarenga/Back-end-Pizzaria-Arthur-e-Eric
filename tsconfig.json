@@ -47,7 +47,7 @@
     ] // Pacotes de tipos a incluir (@types/node)
   },
   "include": [
-    "src/**/*"
+    "src/**/*", "prisma7.config.ts",
   ], // Arquivos a serem incluídos na compilação
   "exclude": [
     "node_modules",

@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+// para criar migrate > npx prisma migrate dev
+
+// npx prisma generate 
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STAFF
+  ADMIN
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+  role     Role   @default(STAFF)
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+  
+  @@map("users")
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+  createdAt DateTime  @default(now())
+  updateAt  DateTime  @updatedAt
+  products  Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id          String  @id @default(uuid())
+  name        String
+  price       Int
+  description String
+  banner      String
+  Disabled    Boolean @default(false)
+  category_id String
+  category    Category @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+  items     Item[]
+
+  @@map("products")
+}
+
+model Order {
+  id     String  @id @default(uuid())
+  table  Int
+  status Boolean @default(false)
+  draft  Boolean @default(true)
+  name   String?
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+  items     Item[]
+
+  @@map("orders")
+}
+
+model Item {
+  id     String @id @default(uuid())
+  amount Int
+  order_id String
+  order    Order  @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product_id String
+  product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@map("items")
+}
