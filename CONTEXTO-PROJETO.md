@@ -60,6 +60,7 @@ Não há prefixo global de API nem versão (`/api/v1`) configurados. Os caminhos
 | `POST` | `/users` | Público | `createUserSchema` | Cria usuário com nome, e-mail e senha. A senha é armazenada como hash bcrypt; a resposta omite a senha. |
 | `POST` | `/session` | Público | `authUserSchema` | Autentica por e-mail e senha e retorna dados do usuário e token JWT com validade de 30 dias. |
 | `GET` | `/me` | Token JWT | — | Consulta os dados do usuário autenticado. **A implementação atual tem uma inconsistência:** `isAuthenticated` grava o ID em `req.user_id`, mas `DetailUserController` passa `req.body` ao service; por isso, o fluxo não utiliza o ID autenticado como esperado e precisa ser corrigido. |
+| `GET` | `/category` | Token JWT | — | Lista todas as categorias cadastradas, em ordem alfabética pelo nome, retornando `id`, `name` e `createdAt`. Não exige perfil `ADMIN`. |
 | `POST` | `/category` | Token JWT + perfil `ADMIN` | `createCategorySchema` | Cria uma categoria e responde com status `201`. |
 
 ### Formatos de entrada
